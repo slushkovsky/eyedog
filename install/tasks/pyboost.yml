@@ -1,0 +1,30 @@
+---
+- name: PyBoost - Crate install dir
+  file: path={{ install_dir }} 
+        state=directory
+  sudo: yes
+
+
+- name: PyBoost - Download
+  get_url: url={{ download_url }} 
+           dest={{ tmp_download }}
+  sudo: yes
+
+
+- name: PyBoost - Unarchive
+  unarchive: src={{ tmp_download }} 
+             dest={{ install_dir }} 
+             copy=no
+  sudo: yes
+
+
+- name: PyBoost - Bootstrap
+  command: ./bootstrap.sh --with-python=python3  --with-libraries=python
+           chdir={{ install_dir }}/{{ download_url | basename | splitext | first }} # .../boost_VERSION
+  sudo: yes
+
+
+- name: PyBoost - Build & Install
+  command: ./b2 install
+           chdir={{ install_dir }}/{{ download_url | basename | splitext | first }}
+  sudo: yes

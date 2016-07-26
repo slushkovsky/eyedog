@@ -1,0 +1,62 @@
+---
+- name: OpenCV - Install build tools
+  apt: name={{ item }} 
+  sudo: yes
+  with_items:
+    - cmake
+
+
+- name: OpenCV - Install python
+  apt: name={{ item }} 
+  sudo: yes
+  with_items:
+    - python3-numpy
+    - python-numpy
+    - python3-dev
+    - python-dev    
+
+
+- name: OpenCV - Install media I/O libs
+  apt: name={{ item }}
+  sudo: yes
+  with_items:
+    - libjpeg-dev
+    - libjasper-dev
+    - libavcodec-dev
+    - libavformat-dev
+    - libswscale-dev  
+    - libtbb-dev
+    - libeigen3-dev
+
+
+- name: OpenCV - Clone GIT 
+  git: repo={{ repo }} 
+       dest={{ install_dir }}
+  sudo: yes
+
+
+- name: OpenCV - Create build dir 
+  file: path={{ install_dir }}/build
+        state=directory
+  sudo: yes
+
+
+- name: OpenCV - cmake
+  command: "cmake -DPYTHON_FOR_BUILD={{ python_executable }} -DPython_ADDITIONAL_VERSIONS={{ python_executable | basename | splitext | first }} .."
+  args: 
+      chdir: "{{ install_dir }}/build"
+  sudo: yes
+
+
+- name: OpenCV - make
+  command: "make -j{{ ansible_processor_vcpus - 1 }}" 
+  args: 
+    chdir: "{{ install_dir }}/build"
+  sudo: yes
+
+
+- name: OpenCV - Install
+  command: make install   
+  args: 
+    chdir: "{{ install_dir }}/build"
+  sudo: yes

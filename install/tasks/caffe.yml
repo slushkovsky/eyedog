@@ -1,0 +1,69 @@
+---
+- name: Caffe - Install build tools
+  apt: name={{ item }} state=present
+  with_items:
+    - cmake
+  sudo: yes
+
+
+- name: Caffe - Install apt requirements
+  apt: name={{ item }}
+  with_items: 
+    - libboost-all-dev
+    - protobuf-compiler
+    - libhdf5-dev 
+    - liblmdb-dev 
+    - libleveldb-dev 
+    - libsnappy-dev 
+    - libatlas-base-dev 
+    - libgoogle-glog-dev 
+    - libprotobuf-dev
+  sudo: yes
+
+
+- name: Caffe - Clone GIT 
+  git: repo={{ repo }} 
+       dest={{ install_dir }}
+  sudo: yes
+
+
+- name: Caffe - Create build dir 
+  file: path={{ install_dir }}/build 
+        state=directory
+  sudo: yes
+
+
+- name: Caffe - cmake 
+  command: cmake ..
+  args:  
+    chdir: "{{ install_dir }}/build"
+  sudo: yes 
+
+
+- name: Caffe - make
+  command: "make all -j{{ ansible_processor_vcpus - 1 }}"
+  args: 
+    chdir: "{{ install_dir }}/build"
+  sudo: yes
+
+
+- name: Caffe - Install
+  command: make install 
+  args: 
+    chdir: "{{ install_dir }}/build"
+  sudo: yes
+
+
+- name: Caffe - Create pycaffe link
+  file: src={{ install_dir }}/python/caffe 
+        dest={{ python_packages_dir }}/caffe 
+        state=link
+  sudo: yes
+
+
+- name: Caffe - Install pycaffe requirements
+  apt: name={{ item }}
+  with_items: 
+    - python-skimage
+    - python-protobuf
+  sudo: yes
