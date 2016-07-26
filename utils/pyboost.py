@@ -37,7 +37,7 @@ def build(module_basename, module_dir, sources, libs, include_paths=[], libs_pat
 
     DEFAULT_LIB_PATHS = {
         os.path.normpath(os.path.join(PROJ_ROOT, 'pyboost')), 
-        '/usr/local/lib'
+        '/usr/local/libs'
     }
 
     DEFAULT_INCLUDE_PATHS = {
@@ -47,7 +47,7 @@ def build(module_basename, module_dir, sources, libs, include_paths=[], libs_pat
 
     ext_params = dict(
         name                =module_basename, 
-        extra_compile_args  =['-std=c++11'], 
+        extra_compile_args  =['-std=c++11', '-L/usr/local/lib', '-lopencv_video'], 
         sources             =list(sources),
         include_dirs        =list(DEFAULT_INCLUDE_PATHS.union(include_paths)),
         runtime_library_dirs=list(DEFAULT_LIB_PATHS    .union(libs_paths   )),
@@ -82,7 +82,8 @@ def build(module_basename, module_dir, sources, libs, include_paths=[], libs_pat
             shutil.copy(builded, module_dir)
             remove_tree(build_dir)
 
-    sys.argv.append('-q')
+    # sys.argv.append('-q')
+    # sys.argv.append('LDFLAGS="-L/usr/local/lib"')
     sys.argv.append('build')
 
     setup(ext_modules=[cpp_module],

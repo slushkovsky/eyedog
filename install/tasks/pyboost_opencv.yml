@@ -1,0 +1,31 @@
+---
+- name: PyBoost_OpenCV - Install build tools
+  apt: name=cmake
+  sudo: yes
+
+- name: PyBoost_OpenCV - Create build dir
+  file: path={{ tmp_build_dir }}
+        state=directory
+  sudo: yes
+
+
+- name: PyBoost_OpenCV - cmake
+  command: "cmake {{ playbook_dir }}/../pyboost/opencv" 
+  args: 
+    chdir: "{{ tmp_build_dir }}"
+  sudo: yes 
+
+
+- name: PyBoost_OpenCV - make
+  command: "make -j{{ ansible_processor_vcpus - 1 }}"
+  args: 
+    chdir: "{{ tmp_build_dir }}"
+  sudo: yes
+
+
+- name: PyBoost_OpenCV - install 
+  command: make install
+  args: 
+    chdir: "{{ tmp_build_dir }}"
+  sudo: yes
+

@@ -1,0 +1,31 @@
+--- 
+- name: EyeDog_{{ module_name }} - Install build tools
+  apt: name=cmake 
+  sudo: yes
+
+
+- name: EyeDog_{{ module_name }} - Create build directory
+  file: path={{ tmp_build_dir }}
+        state=directory
+  sudo: yes
+
+
+- name: EyeDog_{{ module_name }} - cmake
+  command: "cmake {{ playbook_dir }}/../{{ module_dir }}"
+  args: 
+    chdir: "{{ tmp_build_dir }}"
+  sudo: yes
+
+
+- name: EyeDog_{{ module_name }} - make
+  command: "make -j{{ ansible_processor_vcpus - 1}}"
+  args: 
+    chdir: "{{ tmp_build_dir }}"
+  sudo: yes
+
+
+- name: EyeDog_{{ module_name }} - install
+  command: make install 
+  args: 
+    chdir: "{{ tmp_build_dir }}"
+  sudo: yes 

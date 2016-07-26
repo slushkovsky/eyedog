@@ -1,8 +1,6 @@
 ---
 - name: Caffe - Install build tools
-  apt: name={{ item }} state=present
-  with_items:
-    - cmake
+  apt: name=cmake 
   sudo: yes
 
 
@@ -34,7 +32,7 @@
 
 
 - name: Caffe - cmake 
-  command: cmake ..
+  command: cmake -DCMAKE_INSTALL_PREFIX=/usr/local .. 
   args:  
     chdir: "{{ install_dir }}/build"
   sudo: yes 

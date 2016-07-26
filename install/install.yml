@@ -9,6 +9,7 @@
         install_dir: /opt/opencv
         python_executable: /usr/bin/python3.5
 
+
     - name: Install Caffe 
       include: tasks/caffe.yml 
       vars: 
@@ -16,9 +17,32 @@
         install_dir: /opt/caffe
         python_packages_dir: /usr/local/lib/python2.7/dist-packages
 
+
     - name: Install Boost-Python 
       include: tasks/pyboost.yml
       vars: 
         install_dir: /opt/boost
         tmp_download: /tmp/boost.zip
         download_url: https://sourceforge.net/projects/boost/files/boost/1.58.0/boost_1_58_0.zip
+
+
+    - name: Build PyBoost-OpenCV
+      include: tasks/pyboost_opencv.yml
+      vars: 
+        tmp_build_dir: /tmp/pyboost_opencv
+
+
+    - name: Build C++ module - Tracking
+      include: tasks/build_cpp_module.yml
+      vars: 
+        tmp_build_dir: /tmp/eyedog_tracking
+        module_dir: tracking/
+        module_name: Tracking
+
+
+    - name: Build C++ module - Recognize
+      include: tasks/build_cpp_module.yml
+      vars: 
+        tmp_build_dir: /tmp/eyedog_recognize
+        module_dir: recognize/
+        module_name: Recognize 

@@ -2,3 +2,4 @@
 *.pyo
 __pycache__
 *.so
+__build__

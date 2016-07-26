@@ -44,7 +44,7 @@
 - name: OpenCV - cmake
   command: "cmake -DPYTHON_FOR_BUILD={{ python_executable }} -DPython_ADDITIONAL_VERSIONS={{ python_executable | basename | splitext | first }} .."
   args: 
-      chdir: "{{ install_dir }}/build"
+      chdir: "{{   install_dir }}/build"
   sudo: yes
 
 

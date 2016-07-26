@@ -1,23 +1,11 @@
 import os
 import cv2
-from glob import glob
 
-from ..utils.pyboost import import_module
-from ..utils.path import near_file, TARGETING_ROOT
 from .. import cfg
 
 os.environ["GLOG_minloglevel"] = "2"
 
-_classifier = import_module('visual.recognize._classifier',
-						   sources=glob(near_file(__file__, 'src') + '/*'), 
-						   libs=['caffe', 'proto', 'pyboost_opencv'],
-						   include_paths=[near_file(__file__, 'include'),
-						    			  os.path.join(TARGETING_ROOT, 'visual'),
-						                  '/usr/include'],
-						   libs_paths=['/usr/lib/x86_64-linux-gnu/', '/usr/local/lib'])
-
-
-Classifier = _classifier.Classifier
+from ._recognize import Classifier
 
 
 class FaceClassifier(object):
