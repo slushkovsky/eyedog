@@ -1,11 +1,10 @@
 import os
 import cv2
 
-from .. import cfg
+import cfg
 
 os.environ["GLOG_minloglevel"] = "2"
-
-from ._recognize import Classifier
+from ._classifier import Classifier
 
 
 class FaceClassifier(object):

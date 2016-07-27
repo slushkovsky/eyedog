@@ -21,5 +21,5 @@ def size(value):
 	if m is None: 
 		raise ArgumentError('Unsupported size argument format: must be WxH where W - width (int), H - height (int)')
 
-	return Size(width =m.group('width'),
-		        height=m.group('height'))
+	return Size(width =int(m.group('width')),
+		        height=int(m.group('height')))

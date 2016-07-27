@@ -7,8 +7,8 @@ import cfg
 import exc
 
 class CaptureApp(object): 
-    def __init__(self): 
-        self.__capture = capture
+    def __init__(self, capture, resize_to): 
+        self.__capture = cv2.VideoCapture(capture)
         self.__resize_to = resize_to
 
     def on_frame(self, frame): 

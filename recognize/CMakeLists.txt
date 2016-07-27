@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(_recognize)
+project(_classifier) # Must be the same with python module name (in py_module.cpp). 
 
 #----------------------------CMAKE & GLOBAL PROPERTIES-------------------------------------------
 

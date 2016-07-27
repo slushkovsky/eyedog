@@ -1,6 +1,14 @@
 --- 
 - hosts: localhost
 
+  vars_prompt: 
+    - name: github_user
+      prompt: Enter your github username 
+      private: no 
+    - name: github_password
+      prompt: Enter your github password 
+      private: yes
+
   tasks: 
     - name: Install OpenCV
       include: tasks/opencv.yml    
@@ -46,3 +54,10 @@
         tmp_build_dir: /tmp/eyedog_recognize
         module_dir: recognize/
         module_name: Recognize 
+
+
+    - name: Get resources
+      vars: 
+        repo: https://{{ github_user }}:{{ github_password }}@github.com/slushkovsky/eyedog_resources.git
+      git: repo={{ repo }}
+           dest={{ playbook_dir }}/../resources

@@ -19,7 +19,9 @@ def parse_args():
 if __name__ == '__main__': 
 	args = parse_args()
 
-	if mode == 'run': 
+	if args.mode == 'run': 
 		app = App(args.capture, args.resize_to)
 		app.run()
+	else: 
+		print('Unknown mode: {!r}'.format(args.mode))
 

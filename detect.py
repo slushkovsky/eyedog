@@ -1,9 +1,9 @@
 import cv2
 
-from .utils.img import gray, roi
-from .utils.types import Rect
-from .faces_base import Face
-from . import cfg
+from utils.img import gray, roi
+from utils.types import Rect
+from faces_base import Face
+import cfg
 
 class FacesDetector(object): 
     def __init__(self):
