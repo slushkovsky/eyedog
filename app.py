@@ -7,7 +7,8 @@ import cfg
 import exc
 
 class CaptureApp(object): 
-    def __init__(self, capture, resize_to): 
+    def __init__(self, capture, resize_to, output):
+        self.__output = output 
         self.__capture = cv2.VideoCapture(capture)
         self.__resize_to = resize_to
 
@@ -26,6 +27,11 @@ class CaptureApp(object):
 
             self.on_frame(frame)
 
+
+    def show_frame(self, frame): 
+        self.__output.write(frame)
+
+
     def run_single(self): 
         ret, frame = self.__capture.read() 
 
@@ -39,8 +45,8 @@ class CaptureApp(object):
 
 
 class App(CaptureApp):
-    def __init__(self, capture, resize_to):
-        super().__init__(capture, resize_to)
+    def __init__(self, capture, resize_to, output):
+        super().__init__(capture, resize_to, output)
 
         self.faces = FacesBase()
         self.face_detector = FacesDetector()
@@ -78,9 +84,8 @@ class App(CaptureApp):
 
                 cv2.rectangle(draw_frame, tl, br, color, 2)
 
-        cv2.imshow('', frame)
-        cv2.waitKey(1)
-
+        self.show_frame(frame)
+        
 
     def __recognize_faces(self):
         for face in self.faces[FACE_ACTIVE][FACE_CAPTURED]:  

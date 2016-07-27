@@ -1,8 +1,22 @@
+import cv2
 import numpy as np
 from collections import namedtuple
 
 Point = namedtuple('Point', ('x', 'y'))
 Size = namedtuple('Size', ('width', 'height'))
+
+
+class ScreenOutput(object): 
+    def write(self, image): 
+        cv2.imshow('', image)
+        cv2.waitKey(1)
+
+    def isOpened(self): 
+        return True
+
+    def open(self): 
+        pass
+
 
 class Rect(object):
     def __init__(self, x, y, width, height): 
